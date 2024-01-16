@@ -6,6 +6,7 @@ async function fetchUsers(){
 const HomePage =async () => {
 const users = await fetchUsers();
   return (
+    <>
     <ul>{users.map((user)=>(
       <li key={user.id} className="bg-slate-400 mb-2 p-4 rounded-md">
         <div>
@@ -14,6 +15,7 @@ const users = await fetchUsers();
         </div>
       </li>
     ))}</ul>
+    </>
   )
 }
 
