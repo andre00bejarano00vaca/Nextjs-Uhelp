@@ -1,6 +1,7 @@
-import Hola from '@/componestes/hola'
-import Navbar from '@/componestes/Navbar'
+import Hola from '@/app/componestes/Hola'
+import Navbar from '@/app/componestes/Navbar'
 import './globals.css'
+import BuscarPage from './buscar/page'
 
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body >
+        <BuscarPage/>
         <Navbar/>
         <Hola/>
         {children}

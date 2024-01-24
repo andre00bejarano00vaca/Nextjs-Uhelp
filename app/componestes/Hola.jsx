@@ -6,4 +6,4 @@ const Hola = () => {
   )
 }
 
-export default Hola
+export default Hola;
