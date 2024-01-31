@@ -22,12 +22,16 @@ const BuscarPage = () => {
   return (
     <div>
         <form >
-        <input 
-        className="text-black"
+          <div className='border-white'>
+          <input 
+        autoFocus
+        className=" w-full bg-black border-white border-4 text-center"
         type="text"
         placeholder='Buscar Docente'
         value={searchTerm}
         onChange={e=>setSearchTerm(e.target.value)}/>
+          </div>
+        
         </form> 
         {searchTerm && (
   <ul>
