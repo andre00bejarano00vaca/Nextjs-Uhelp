@@ -2,6 +2,7 @@
 import React,{useState,useEffect} from 'react'
 import { collection, addDoc, query, onSnapshot, QuerySnapshot, getDocs } from "firebase/firestore"; 
 import { db } from '../firebase';
+import Link from 'next/link';
 const BuscarPage = () => {
   const [docentes, setDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,7 +19,7 @@ const BuscarPage = () => {
     obtenerDocentes();
   },[]);
   
-  const filteredDocente =  docentes.filter((docente) => docente.id.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredDocente =  docentes.filter((docente) => docente.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
   return (
     <div>
         <form >
@@ -36,7 +37,7 @@ const BuscarPage = () => {
         {searchTerm && (
   <ul>
     {filteredDocente.map((doc, index) => (
-      <li className='bg-slate-400 mb-2 p-4 rounded-md font-bold' key={index}><h5>{doc.id}</h5></li>
+      <li className='bg-slate-400 mb-2 p-4 rounded-md font-bold' key={index}><Link href={`/buscar/${doc.id}`} ><h5>{doc.nombre}</h5></Link></li>
     ))}
   </ul>
 )}
