@@ -1,7 +1,5 @@
-import Hola from '@/app/componestes/Hola'
 import Navbar from '@/app/componestes/Navbar'
 import './globals.css'
-import BuscarPage from './buscar/page'
 
 
 export const metadata = {
