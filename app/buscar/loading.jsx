@@ -2,7 +2,7 @@ import React from 'react'
 
 const loadingPage = () => {
   return (
-    <spam>Loading...</spam>
+    <span>Loading...</span>
   )
 }
 
