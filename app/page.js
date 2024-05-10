@@ -1,10 +1,10 @@
 import BuscarPage from "./buscar/page"
+import PaginasFiltro from "./componestes/Filtros/Paginas/PaginasFiltro"
 
 const HomePage =async () => {
   return (
-    <div className="grid place-items-center h-screen w-screen  bg-black text-white">
-    
-    <BuscarPage/>
+    <div>
+      <PaginasFiltro/>
     </div>
   )
 }
