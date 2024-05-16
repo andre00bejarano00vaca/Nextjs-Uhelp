@@ -28,11 +28,6 @@ const postPage = async ({ params }) => {
       <h2 className="text-2xl">{nombreDocente.nombre}</h2>
       <Comentario id={params.postId} />
       <GetComentarios id={params.postId} />
-      <ul>
-        {nombreDocente.comentarios.map((comentario, index) => (
-          <li key={index}>{comentario}</li>
-        ))}
-      </ul>
     </div>
   );
 };
