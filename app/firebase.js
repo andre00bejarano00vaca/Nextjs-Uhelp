@@ -8,12 +8,13 @@ import {getAuth} from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC2Okmb7FjLXpUXIP2Ouo-jRZGseprYQGE",
-  authDomain: "uhelp-sustituto.firebaseapp.com",
-  projectId: "uhelp-sustituto",
-  storageBucket: "uhelp-sustituto.appspot.com",
-  messagingSenderId: "259874304204",
-  appId: "1:259874304204:web:e6c1a09bbcda79759a9269"
+  apiKey: "AIzaSyCwHCa1xy5IWc6ODRX2URymO1OPZtE3KsM",
+  authDomain: "uhelp-844d9.firebaseapp.com",
+  databaseURL: "https://uhelp-844d9-default-rtdb.firebaseio.com",
+  projectId: "uhelp-844d9",
+  storageBucket: "uhelp-844d9.appspot.com",
+  messagingSenderId: "448239813210",
+  appId: "1:448239813210:web:9446649723b5a67b7c8e63"
 };
 
 // Initialize Firebase

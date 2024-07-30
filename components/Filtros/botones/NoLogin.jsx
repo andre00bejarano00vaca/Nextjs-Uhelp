@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import loginWithGooble from '@/app/function/firebaseAuth/loginWithGoogle'
 
 const NoLogin = () => {

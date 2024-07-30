@@ -1,10 +1,9 @@
 "use client"
-import React from 'react'
+import React from 'react';
 import { auth } from '@/app/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useState,useEffect } from 'react';
 import NoLogin from './NoLogin';
-import Login from './Login';
 const BotonFiltro = () => {
     const [user, setUser] = useState(null);
 
@@ -21,7 +20,7 @@ const BotonFiltro = () => {
         };
     }, []); // Vacío como segundo argumento para que se ejecute solo una vez al montar el componente
 
-    return user ? <Login user={user} /> : <NoLogin />;
+    return(<NoLogin/>);
 }
 
 export default BotonFiltro

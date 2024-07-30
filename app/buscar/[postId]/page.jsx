@@ -1,8 +1,8 @@
 import React from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import Comentario from "@/app/componestes/comentarios/SetComentario";
-import GetComentarios from "@/app/componestes/comentarios/getComentarios";
+import Comentario from "@/components/comentarios/SetComentario";
+import GetComentarios from "@/components/comentarios/GetComentarios";
 
 async function obtenerUsuarioPorId(userId) {
   try {
@@ -25,9 +25,10 @@ const postPage = async ({ params }) => {
 
   return (
     <div>
-      <h2 className="text-2xl">{nombreDocente.nombre}</h2>
+      <h2 className="text-2xl p-5">{nombreDocente.nombre}</h2>
       <Comentario id={params.postId} />
       <GetComentarios id={params.postId} />
+      
     </div>
   );
 };

@@ -2,10 +2,6 @@
 import React, { useState, useEffect } from "react";
 import {
   collection,
-  addDoc,
-  query,
-  onSnapshot,
-  QuerySnapshot,
   getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -33,10 +29,12 @@ const BuscarPage = () => {
     docente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className="text-center border-4 border-white overflow-auto h-1/2 w-3/4 rounded-md ">
+    <div className="text-center  border-white  h-1/2 w-3/4 rounded-md ">
       <input
         autoFocus
         className=" w-full bg-black border-white border-4 text-center"
+        id="buscadorDeNombres"
+        name="search"
         type="text"
         placeholder="Buscar Docente"
         value={searchTerm}

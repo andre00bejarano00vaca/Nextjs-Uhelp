@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/app/firebase";
 import Registrado from "./Registrado";
-import NoRegistrado from "./NoRegistrado";
-import LoadingPage from "@/app/loading";
 
 const PaginasFiltro = () => {
   const [user, setUser] = useState(null);
@@ -28,11 +26,9 @@ const PaginasFiltro = () => {
       unsubscribe(); // Desuscribirse cuando el componente se desmonte
     };
   }, []); // Vacío como segundo argumento para que se ejecute solo una vez al montar el componente
-  if (loading == true) {
-    return <LoadingPage />;
-  } else {
-    return user ? <Registrado /> : <NoRegistrado />;
-  }
+  return(
+    <Registrado/>
+  )
 };
 
 export default PaginasFiltro;

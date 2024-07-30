@@ -1,10 +1,9 @@
-import BuscarPage from "./buscar/page"
-import PaginasFiltro from "./componestes/Filtros/Paginas/PaginasFiltro"
+import Registrado from "@/components/Filtros/Paginas/Registrado"
 
 const HomePage =async () => {
   return (
     <div>
-      <PaginasFiltro/>
+      <Registrado/>
     </div>
   )
 }

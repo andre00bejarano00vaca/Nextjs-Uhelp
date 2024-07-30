@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import logOut from '@/app/function/firebaseAuth/LogOut'
 const Login = () => {
   return (
