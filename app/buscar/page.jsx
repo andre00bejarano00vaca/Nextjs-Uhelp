@@ -7,8 +7,8 @@ import {
 import { db } from "../firebase";
 import Link from "next/link";
 const BuscarPage = () => {
-  const [docentes, setDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [docentes, setDocentes] = useState([]);
   const obtenerDocentes = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "Docentes"));

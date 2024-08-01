@@ -30,7 +30,7 @@ const Navbar = () => {
       <ul className={`lg:flex lg:items-center lg:space-x-4 ${isOpen ? 'block' : 'hidden'} absolute lg:static bg-black w-full lg:w-auto top-16 left-0 shadow-lg lg:shadow-none `}>
         <li className="p-2"><Link onClick={handleLinkClick} href="/">Home</Link></li>
         <li className="p-2"><Link onClick={handleLinkClick} href="/auxiliatura">Auxiliaturas</Link></li>
-        <li className="p-2"><Link href="/Documentacion">Documentación</Link></li>
+        <li className="p-2"><Link onClick={handleLinkClick} href="/Documentacion">Documentación</Link></li>
         <li className="p-2"><Link onClick={handleLinkClick} href="/donaciones">???</Link></li>
       </ul>
     </nav>
