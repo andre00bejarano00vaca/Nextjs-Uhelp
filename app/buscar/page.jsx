@@ -1,20 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import { db } from "../firebase";
 import Link from "next/link";
-const BuscarPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+import { ScrollShadow,Input } from "@nextui-org/react";
+const BuscarPage = ({props}) => {
   const [docentes, setDocentes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const obtenerDocentes = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "Docentes"));
-      const docentesData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+      const docentesData = props.map((prop) => ({
+        id: prop.id,
+        ...prop
       }));
       setDocentes(docentesData);
     } catch (error) {
@@ -24,28 +19,42 @@ const BuscarPage = () => {
   useEffect(() => {
     obtenerDocentes();
   }, []);
+  //--------NEXTUI INPUT
+  const [value, setValue] = React.useState("junior2nextui.org");
 
+  const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const isInvalid = React.useMemo(() => {
+    if (value === "") return false;
+
+    return validateEmail(value) ? false : true;
+  }, [value]);
+  //-----NEXTUI INPUT
+  
+  // FILTRO PARA LA BUSQUEDA
   const filteredDocente = docentes.filter((docente) =>
     docente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
     <div className="text-center  border-white  h-1/2 w-3/4 rounded-md ">
-      <input
-        autoFocus
-        className=" w-full bg-black border-white border-4 text-center"
-        id="buscadorDeNombres"
-        name="search"
-        type="text"
-        placeholder="Buscar Docente"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+       <Input
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      type="text"
+      label="Busca al docente"
+      variant="bordered"
+      isInvalid={isInvalid}
+      color={isInvalid ? "danger" : "warning"}
+      errorMessage="apellido paterno, materno y nombre"
+      onValueChange={setValue}
+      className="w-full"
       />
-      <div className="text-center border-4 border-white overflow-auto h-full w-full rounded-md ">
+      <ScrollShadow className=" h-[400px]">
         {searchTerm && (
           <ul>
             {filteredDocente.map((doc, index) => (
               <li
-                className="bg-slate-400 mb-2 p-4 rounded-md font-bold"
+                className="backdrop-blur-sm bg-zinc-800	 text-orange-400 mb-2 p-4 rounded-md font-bold"
                 key={index}
               >
                 <Link href={`/buscar/${doc.id}`}>
@@ -55,7 +64,7 @@ const BuscarPage = () => {
             ))}
           </ul>
         )}
-      </div>
+      </ScrollShadow>
     </div>
   );
 };

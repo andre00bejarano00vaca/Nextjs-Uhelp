@@ -1,57 +1,107 @@
 "use client";
-import { useState } from "react";
-import {
-  collection,
-  addDoc,
-  setDoc,
-  doc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@/app/firebase";
-import getDateTime from "@/app/function/GetDate";
+import React, { useState, useEffect, Suspense } from "react";
+import * as StompJs from "@stomp/stompjs";
+import GetComentarios from "@/components/comentarios/GetComentarios";
+import { ScrollShadow,Input,Button } from "@nextui-org/react";
+import { SkeletonComp } from "./SkeletonComp.jsx";
 
-const Comentarios = ({ id }) => {
-  const [comentario, setComentario] = useState("");
-  const handleChange = (e) => {
-    setComentario(e.target.value);
-  };
+const ChatComponent = ({ id }) => {
+  const [stompClient, setStompClient] = useState(null);
+  const [greetings, setGreetings] = useState([]);
+  const [name, setName] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (comentario !== "") {
-      try {
-        var comentarioId = getDateTime();
-        const docRef = await setDoc(
-          doc(collection(db, `Docentes/${id}/comentarios`)),
-          {
-            comentario: comentario,
-            timesnap: serverTimestamp(),
-          }
-        );
-        // puedes hacer otras acciones después de agregar el documento
-      } catch (error) {
-        console.error("Error al agregar el comentario:", error);
+  useEffect(() => {
+    const client = new StompJs.Client({
+      brokerURL: "wss://uhelp-api-springboot-production.up.railway.app/chats",
+      onConnect: (frame) => {
+        console.log("Connected: " + frame);
+        client.subscribe(`/topic/greetings/${id}`, (greeting) => {
+          const message = JSON.parse(greeting.body).content;
+          setGreetings((prevGreetings) => [...prevGreetings, message]);
+        });
+      },
+      onWebSocketError: (error) => {
+        console.error("Error with websocket", error);
+      },
+      onStompError: (frame) => {
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+      },
+    });
+
+    setStompClient(client);
+    client.activate(); // Activar la conexión automáticamente
+
+    return () => {
+      if (client) {
+        client.deactivate();
       }
-      setComentario("");
-    } else {
-      alert("No escribio nada para ser enviado");
-    }
-  };
+    };
+  }, [id]); // Agregamos id como dependencia para reconectar si cambia
 
+  const sendName = () => {
+    if (stompClient && name) {
+      stompClient.publish({
+        destination: `/app/hello/${id}`,
+        body: JSON.stringify({
+          docenteId: id,
+          texto: name,
+        }),
+      });
+    }
+    setName("");
+  };
+  //NEXTJS UI INPUT
+  const [value, setValue] = React.useState("junior2nextui.org");
+
+  const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const isInvalid = React.useMemo(() => {
+    if (value === "") return false;
+
+    return validateEmail(value) ? false : true;
+  }, [value]);
+///// NEXTUI INPUT
   return (
-    <form id="enviarComentario" name="cajaComentario" onSubmit={handleSubmit}>
-      <input
-        id="inputComentario"
-        name="cajaComentario"
-        type="text"
-        value={comentario}
-        onChange={handleChange}
-        className="text-black"
-      />
-      <button type="submit">Send</button>
-      <p>{id}</p>
-    </form>
+    <div>
+      <div className="flex flex-nowrap justify-center">
+      <Input
+      value={name}
+      type="email"
+      label="Email"
+      variant="bordered"
+      isInvalid={isInvalid}
+      color={isInvalid ? "danger" : "success"}
+      errorMessage="Please enter a valid email"
+      onValueChange={setValue}
+      onChange={(e) => setName(e.target.value)}
+      className="max-w-xs"
+    />
+    <Button className="mt-2" onClick={sendName} color="warning">
+        Enviar
+      </Button> 
+      </div>
+      <div className="max-w-2xl mx-auto my-8">
+        <div className="  shadow-md space-y-4">
+          <ScrollShadow className="max-w-2xl h-[400px]">
+            <div className="flex flex-col-reverse">
+              {greetings.map((data, index) => (
+                <div 
+                key={index} 
+                className="backdrop-blur-sm bg-zinc-800 text-orange-400 mb-2 p-4 rounded-md font-bold break-words"
+              >
+                {data}
+              </div>
+              ))}
+            </div>
+            <Suspense fallback={<SkeletonComp/>}>
+              <GetComentarios id={id} />
+            </Suspense>
+          </ScrollShadow>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Comentarios;
+export default ChatComponent;

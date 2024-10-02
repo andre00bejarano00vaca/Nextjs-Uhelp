@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body{
-  @apply bg-gray-950;
-  @apply text-white;
+  height: 100vh;
+  background-color: black;
+  color: azure;
 }
