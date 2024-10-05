@@ -53,6 +53,7 @@ const ChatComponent = ({ id }) => {
   };
   //NEXTJS UI INPUT
   const [value, setValue] = React.useState("junior2nextui.org");
+  const maxLength = 500;
 
   const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
@@ -67,15 +68,16 @@ const ChatComponent = ({ id }) => {
       <div className="flex flex-nowrap justify-center">
       <Input
       value={name}
-      type="email"
-      label="Email"
+      type="text"
+      label="Escribe tu comentario"
       variant="bordered"
-      isInvalid={isInvalid}
-      color={isInvalid ? "danger" : "success"}
-      errorMessage="Please enter a valid email"
+      isInvalid={isInvalid}j
+      maxLength={maxLength}
+      color={isInvalid ? "danger" : "danger"}
+      errorMessage={`(${name.length}/${maxLength})`}
       onValueChange={setValue}
       onChange={(e) => setName(e.target.value)}
-      className="max-w-xs"
+      className="max-w-xs break-words"
     />
     <Button className="mt-2" onClick={sendName} color="warning">
         Enviar
