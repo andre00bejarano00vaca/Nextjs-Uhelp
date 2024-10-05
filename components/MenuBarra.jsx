@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
+import Link from "next/link";
+import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Button} from "@nextui-org/react";
 
 const MenuBarra = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -20,7 +21,7 @@ const MenuBarra = () => {
         className="sm:hidden"
       />
       <NavbarBrand>
-      <Link color="warning" href="/">
+      <Link className="text-orange-400" href="/">
         UHELP
         </Link>
       </NavbarBrand>
@@ -33,7 +34,7 @@ const MenuBarra = () => {
         </Link>
       </NavbarItem>
       <NavbarItem isActive>
-        <Link href="/auxiliatura" aria-current="page">
+        <Link className="text-blue-700" href="/auxiliatura" aria-current="page">
         Auxiliatura
         </Link>
       </NavbarItem>
@@ -54,10 +55,9 @@ const MenuBarra = () => {
       {menuItems.map((item, index) => (
         <NavbarMenuItem key={`${item.name}-${index}`}>
           <Link
-            color={
-              index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-            }
-            className="w-full"
+            className={`w-full ${
+              index === 2 ? "text-blue-700" : index === menuItems.length - 1 ? "text-red-500" : "text-black"
+            }`}
             href={`${item.href}`}
             size="lg"
           >
