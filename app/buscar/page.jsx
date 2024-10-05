@@ -45,7 +45,7 @@ const BuscarPage = () => {
     docente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div className="text-center  border-white  h-1/2 w-3/4 rounded-md ">
+    <div className="text-center  border-white  h-1/2 w-3/4">
        <Input
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
