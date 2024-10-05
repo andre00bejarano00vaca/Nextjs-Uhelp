@@ -14,7 +14,6 @@ const ChatComponent = ({ id }) => {
     const client = new StompJs.Client({
       brokerURL: "wss://uhelp-api-springboot-production.up.railway.app/chats",
       onConnect: (frame) => {
-        console.log("Connected: " + frame);
         client.subscribe(`/topic/greetings/${id}`, (greeting) => {
           const message = JSON.parse(greeting.body).content;
           setGreetings((prevGreetings) => [...prevGreetings, message]);
