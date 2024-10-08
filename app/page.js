@@ -2,7 +2,7 @@ import Registrado from "@/components/Filtros/Paginas/Registrado"
 
 const HomePage =async () => {
   return (
-    <div>
+    <div className=" h-screen w-100 text-white" >
       <Registrado/>
     </div>
   )
