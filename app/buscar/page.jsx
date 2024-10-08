@@ -8,14 +8,13 @@ const FetchoFront = async() =>{
   return datas;
 }
 
-const BuscarPage = () => {
+const BuscarPage = ({props}) => {
   const [docentes, setDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
    const obtenerDocentes = async () => {
     try {
-      const docentesData = await FetchoFront(); // Llamas a FetchoFront aquí para obtener los datos
-      const formattedData = docentesData.map((prop) => ({
+      const formattedData = props.map((prop) => ({
         id: prop.id,
         ...prop,
       }));
