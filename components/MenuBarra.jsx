@@ -8,7 +8,7 @@ const MenuBarra = () => {
   const menuItems = [
     { name: "Inicio", href: "/" },
     { name: "Auxiliatura", href: "/auxiliatura" },
-    { name: "Documentación", href: "/Documentacion" },
+    { name: "Startups", href: "/Documentacion" },
     { name: "Donaciones", href: "/donaciones" }
   ];
 
@@ -39,7 +39,7 @@ const MenuBarra = () => {
       </NavbarItem>
       <NavbarItem>
         <Link color="foreground" href="/Documentacion">
-        Documentación
+        Startups
         </Link>
       </NavbarItem>
       <NavbarItem>
