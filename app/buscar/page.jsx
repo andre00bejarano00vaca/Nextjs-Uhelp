@@ -2,14 +2,20 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ScrollShadow,Input } from "@nextui-org/react";
+const FetchoFront = async() =>{
+  const res = await fetch(`https://uhelp-api-springboot-production.up.railway.app/api/docentes`);
+  const datas = await res.json();
+  return datas;
+}
 
-const BuscarPage = ({props}) => {
+const BuscarPage = () => {
   const [docentes, setDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
    const obtenerDocentes = async () => {
     try {
-      const formattedData = props.map((prop) => ({
+      const docentesData = await FetchoFront(); // Llamas a FetchoFront aquí para obtener los datos
+      const formattedData = docentesData.map((prop) => ({
         id: prop.id,
         ...prop,
       }));
