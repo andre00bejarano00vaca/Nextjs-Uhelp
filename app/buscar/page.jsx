@@ -1,79 +1,119 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { ScrollShadow,Input } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
+import DocentesCard from "@/components/DocenteCard";
+import { SkeletonComp } from "@/components/comentarios/SkeletonComp";
 const FetchoFront = async() =>{
   const res = await fetch(`https://uhelp-api-springboot-production.up.railway.app/api/docentes`);
   const datas = await res.json();
   return datas;
 }
-
 const BuscarPage = () => {
   const [docentes, setDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const [itemsPerPage] = useState(5); // Número de elementos por página
 
-   const obtenerDocentes = async () => {
+  const obtenerDocentes = async () => {
     try {
-      const docentesData = await FetchoFront(); // Llamas a FetchoFront aquí para obtener los datos
-      const formattedData = docentesData.map((prop) => ({
+      const docentesFetchData = await FetchoFront(); // Llamas a FetchoFront aquí para obtener los datos
+      const docentesData = docentesFetchData.map((prop) => ({
         id: prop.id,
         ...prop,
       }));
-      setDocentes(formattedData);
+      setDocentes(docentesData);
+      setLoading(false); // Cambiamos el estado de carga a false después de obtener los datos
     } catch (error) {
       console.log("Error al obtener los datos: ", error);
+      setLoading(false); // Incluso si hay error, detener el estado de carga
     }
   };
 
   useEffect(() => {
     obtenerDocentes();
   }, []);
-  //--------NEXTUI INPUT
-  const [value, setValue] = React.useState("junior2nextui.org");
 
-  const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
-
-  const isInvalid = React.useMemo(() => {
-    if (value === "") return false;
-
-    return validateEmail(value) ? false : true;
-  }, [value]);
-  //-----NEXTUI INPUT
-  
   // FILTRO PARA LA BUSQUEDA
   const filteredDocente = docentes.filter((docente) =>
     docente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Si no hay searchTerm, mostramos la lista completa
+  const docentesParaMostrar = searchTerm ? filteredDocente : docentes;
+
+  // Calcular el índice de los docentes que se mostrarán en la página actual
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = docentesParaMostrar.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Calcular el número total de páginas
+  const totalPages = Math.ceil(docentesParaMostrar.length / itemsPerPage);
+
+  // Cambiar de página
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
-    <div className="text-center  border-white  h-1/2 w-3/4">
-       <Input
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      type="text"
-      label="Busca al docente"
-      variant="bordered"
-      isInvalid={isInvalid}
-      color={isInvalid ? "danger" : "warning"}
-      errorMessage="apellido paterno, materno y nombre"
-      onValueChange={setValue}
-      className="w-full"
+    <div className="flex text-center flex-col justify-between h-full ">
+      <div>
+
+      {/* Input para búsqueda */}
+      <Input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado searchTerm
+        type="text"
+        label="Busca al docente"
+        variant="bordered"
+        color="warning"
+        errorMessage="Apellido paterno, materno o nombre"
       />
-      <ScrollShadow className=" h-[400px]">
-        {searchTerm && (
-          <ul>
-            {filteredDocente.map((doc, index) => (
-              <li
-                className="backdrop-blur-sm bg-zinc-800	 text-orange-400 mb-2 p-4 rounded-md font-bold"
-                key={index}
-              >
-                <Link href={`/buscar/${doc.id}`}>
-                  <h5>{doc.nombre}</h5>
-                </Link>
-              </li>
-            ))}
-          </ul>
+
+      {/* Renderiza los docentes (filtrados o completos) */}
+      <div className="flex flex-wrap gap-4 justify-center p-4 w-full">
+        {loading ? (
+          <SkeletonComp />
+        ) : currentItems.length > 0 ? (
+          currentItems.map((doc, index) => (
+            <DocentesCard key={index} docente={doc} />
+          ))
+        ) : (
+          <p>No se encontraron docentes.</p>
         )}
-      </ScrollShadow>
+      </div>
+      </div>
+
+      {/* Paginación */}
+      <div className="flex justify-center gap-2 mb-12 ">
+        <Button
+          disabled={currentPage === 1}
+          onPress={prevPage}
+          auto
+          flat
+        >
+          Anterior
+        </Button>
+        <span>
+          Página {currentPage} de {totalPages}
+        </span>
+        <Button
+          disabled={currentPage === totalPages}
+          onPress={nextPage}
+          auto
+          flat
+        >
+          Siguiente
+        </Button>
+      </div>
     </div>
   );
 };
