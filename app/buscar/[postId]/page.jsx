@@ -3,7 +3,7 @@ import Comentario from "@/components/comentarios/SetComentario";
 
 async function obtenerUsuarioPorId(userId) {
   try {
-    const res = await fetch(`https://localhost:8080/api/docentes`);
+    const res = await fetch(`https://uhelp-api-springboot-production.up.railway.app/api/docentes`);
     const datas = await res.json();
     const filtros = datas.filter(function (dato) {
       return dato.id == userId;

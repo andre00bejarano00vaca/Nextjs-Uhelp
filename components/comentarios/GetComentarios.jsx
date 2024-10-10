@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 async function fetchComentarios(id) {
-  const res = await fetch(`https://localhost:8080/mensajes/docente/${id}`);
+  const res = await fetch(`https://uhelp-api-springboot-production.up.railway.app/mensajes/docente/${id}`);
   const datas = await res.json();
   return datas;
 }
