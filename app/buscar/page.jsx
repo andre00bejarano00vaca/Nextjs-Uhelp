@@ -4,7 +4,7 @@ import { Input, Button } from "@nextui-org/react";
 import DocentesCard from "@/components/DocenteCard";
 import { SkeletonComp } from "@/components/comentarios/SkeletonComp";
 const FetchoFront = async() =>{
-  const res = await fetch(`https://uhelp-api-springboot-production.up.railway.app/api/docentes`);
+  const res = await fetch(`https://localhost:8080/api/docentes`);
   const datas = await res.json();
   return datas;
 }

@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html className="h-screen bg-black break-words "  lang="en">
+    <html className="h-screen bg-black break-words "  lang="es">
       <body className="h-screen break-words">
          <MenuBarra/>
         {children}
