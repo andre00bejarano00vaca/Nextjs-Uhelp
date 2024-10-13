@@ -15,7 +15,7 @@ const ChatComponent = ({ id }) => {
       brokerURL: "wss://uhelp-api-springboot-production.up.railway.app/chats",
       onConnect: (frame) => {
         client.subscribe(`/topic/greetings/${id}`, (greeting) => {
-          const message = JSON.parse(greeting.body).content;
+          const message = JSON.parse(greeting.body).texto;
           setGreetings((prevGreetings) => [...prevGreetings, message]);
         });
       },
